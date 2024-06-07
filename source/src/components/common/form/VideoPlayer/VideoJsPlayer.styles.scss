@@ -1,0 +1,108 @@
+.player {
+    display: flex;
+    height: 80vh;
+    overflow: hidden;
+    /* background-color: #000; */
+}
+
+.video-js {
+    height: 100% !important;
+    width: 100%;
+    transition: width 0.3s;
+    backface-visibility: hidden;
+}
+
+.rewindIcon .vjs-icon-placeholder:before {
+    content: '↶';
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.fast-forward-icon .vjs-icon-placeholder:before {
+    content: '↷';
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.vjs-theme-sea .vjs-button > .vjs-icon-placeholder:before {
+    line-height: 45px !important;
+}
+
+.vjs-theme-sea .vjs-control-bar {
+    height: 2.5rem !important;
+    font-size: 12px;
+}
+
+.vjs-theme-sea .vjs-time-control {
+    line-height: 2em !important;
+    [aria-hidden='true'] {
+        display: none;
+    }
+}
+
+.vjs-quality-selector .vjs-icon-placeholder:before {
+    display: none !important;
+}
+
+.vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.video-js.vjs-theme-sea .vjs-big-play-button {
+    /* display: block; */
+    font-size: 50px;
+    line-height: 70px;
+    height: 70px;
+    width: 70px;
+    left: 50%;
+    top: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+    border-radius: 50%;
+    border: none;
+    background-color: #00acc1;
+}
+
+.vjs-theme-sea .vjs-progress-control .vjs-play-progress {
+    background-color: #00acc1 !important;
+}
+
+.vjs-quality-selector .vjs-icon-placeholder {
+    font-family: 'SFPro';
+    font-size: 15px;
+    margin-top: -4px;
+}
+
+.vjs-playback-rate .vjs-playback-rate-value {
+    font-size: 15px !important;
+    line-height: 45px !important;
+}
+
+.vjs-menu-item {
+    color: white;
+    font-size: 11px !important;
+}
+
+.vjs-menu-title {
+    color: #00acc1;
+}
+
+.vjs-remaining-time-display {
+    line-height: 45px;
+}
+
+.vjs-volume-panel-horizontal {
+    display: flex !important;
+    align-items: center;
+}
+
+.vjs-volume-horizontal {
+    height: 2rem !important;
+    margin-bottom: 10px !important;
+    margin-left: 5px !important;
+}
+
+.vjs-remaining-time-display {
+    font-size: 20px;
+}

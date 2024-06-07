@@ -1,0 +1,10 @@
+REACT_APP_API = https://ilms-auth.developteam.net/
+REACT_APP_API_MEDIA = https://ilms-media.developteam.net/
+REACT_APP_ENV = prod
+GENERATE_SOURCEMAP = true
+CI = false
+IMAGE_INLINE_SIZE_LIMIT = 0
+REACT_APP_ENABLE_EXPOSURE = true
+REACT_APP_USERNAME = abc_client
+REACT_APP_PASSWORD = S0akjzNH9ydtlpPZ9nZSxduS9
+REACT_APP_WEB_SOCKET_URL = wss://ilms-noti.developteam.net/ws

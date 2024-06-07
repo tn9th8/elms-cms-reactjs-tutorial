@@ -1,0 +1,46 @@
+@import '@assets/scss/global';
+.sidebar {
+    overflow: auto;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.sidebar::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &[data-collapsed='true'] {
+        margin-top: 5px;
+        height: 26px;
+        padding: 4px;
+        img {
+            border-radius: 4px;
+            width: 50%;
+        }
+    }
+
+    &[data-collapsed='false'] {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 8px;
+        height: auto;
+        img {
+            border-radius: 10px;
+            width: 98%;
+        }
+    }
+}
+
+.menu {
+    [role='menuitem'] {
+        outline: none !important;
+    }
+}

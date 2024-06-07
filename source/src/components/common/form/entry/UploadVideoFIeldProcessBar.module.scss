@@ -1,0 +1,29 @@
+.box {
+    background-color: #f3f4f9;
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    bottom: 0;
+}
+
+.desc {
+    text-align: left;
+    color: var(--primary-color);
+    padding: 0px 10px;
+}
+
+.descNameFile {
+    margin: 0;
+    margin-top: 10px;
+    color: var(--primary-color);
+    overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+.descTitle {
+    font-size: 15px;
+    color: #40404085;
+    margin: 0;
+}

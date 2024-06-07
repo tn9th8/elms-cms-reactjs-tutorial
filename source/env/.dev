@@ -1,0 +1,11 @@
+REACT_APP_API = https://elms-auth.developteam.net/
+REACT_APP_API_MEDIA = https://org-media-template.developteam.net/
+REACT_APP_ENV = dev
+GENERATE_SOURCEMAP = true
+CI = false
+IMAGE_INLINE_SIZE_LIMIT = 0
+REACT_APP_ENABLE_EXPOSURE = true
+REACT_APP_USERNAME = abc_client
+REACT_APP_PASSWORD = abc123
+REACT_APP_TENANT_ID = cntt
+REACT_APP_WEB_SOCKET_URL = wss://elms-noti.developteam.net/ws
