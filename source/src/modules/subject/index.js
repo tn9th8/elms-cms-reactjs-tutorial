@@ -70,8 +70,12 @@ const SubjectListPage = () => {
 
     const searchFields = [
         {
-            key: 'fullName',
-            placeholder: translate.formatMessage(commonMessage.name),
+            key: 'subjectName',
+            placeholder: translate.formatMessage(commonMessage.subjectName),
+        },
+        {
+            key: 'subjectCode',
+            placeholder: translate.formatMessage(commonMessage.subjectCode),
         },
         {
             key: 'status',

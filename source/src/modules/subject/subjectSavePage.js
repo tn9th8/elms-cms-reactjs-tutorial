@@ -13,7 +13,7 @@ const message = defineMessages({
 });
 
 const SubjectSavePage = () => {
-    const studentId = useParams();
+    const objectId = useParams();
     const translate = useTranslate();
 
     const { detail, onSave, mixinFuncs, setIsChangedFormValues, isEditing, errors, loading, title } = useSaveBase({
@@ -46,7 +46,7 @@ const SubjectSavePage = () => {
             routes={[
                 {
                     breadcrumbName: translate.formatMessage(message.subject),
-                    path: generatePath(routes.subjectListPage.path, { studentId }),
+                    path: generatePath(routes.subjectListPage.path, { objectId }),
                 },
                 { breadcrumbName: title },
             ]}

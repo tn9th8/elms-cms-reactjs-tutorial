@@ -39,7 +39,7 @@ const useSaveBase = ({
         objectName: '',
         getListUrl: '',
     },
-    isProjectToken =false,
+    isProjectToken = false,
     override,
 }) => {
     const navigate = useNavigate();
@@ -56,8 +56,14 @@ const useSaveBase = ({
     });
     const userTokenProject = getData(storageKeys.USER_PROJECT_ACCESS_TOKEN);
     const translate = useTranslate();
-    const { execute: executeCreate, loading: loadingCreate } = useFetch( isProjectToken ? { ...apiConfig.create,authorization: `Bearer ${userTokenProject}` } : { ...apiConfig.create }, { immediate: false });
-    const { execute: executeUpdate, loading: loadingUpdate } = useFetch(isProjectToken ? { ...apiConfig.create,authorization: `Bearer ${userTokenProject}` } : { ...apiConfig.update }, { immediate: false });
+    const { execute: executeCreate, loading: loadingCreate } = useFetch(
+        isProjectToken ? { ...apiConfig.create, authorization: `Bearer ${userTokenProject}` } : { ...apiConfig.create },
+        { immediate: false },
+    );
+    const { execute: executeUpdate, loading: loadingUpdate } = useFetch(
+        isProjectToken ? { ...apiConfig.create, authorization: `Bearer ${userTokenProject}` } : { ...apiConfig.update },
+        { immediate: false },
+    );
     const title =
         params.id === 'create'
             ? `${translate.formatMessage(message.new)} ${options.objectName}`
@@ -122,27 +128,7 @@ const useSaveBase = ({
             }
         };
 
-        // if (isChanged) {
-        //     showWarningConfirmModal({
-        //         title: 'Quay lại',
-        //         onOk: doBack,
-        //     });
-        // } else {
-        // }
         doBack();
-    };
-
-    const showWarningConfirmModal = ({ onOk, title = null, ...rest } = {}) => {
-        confirm({
-            title: title,
-            centered: true,
-            width: 475,
-            okType: 'danger',
-            className: 'custom-confirm-modal warning',
-            icon: <ExclamationCircleOutlined />,
-            onOk: onOk,
-            ...rest,
-        });
     };
 
     const prepareCreateData = (data) => {
