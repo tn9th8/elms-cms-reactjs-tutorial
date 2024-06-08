@@ -40,6 +40,11 @@ const SubjectSavePage = () => {
             };
         },
     });
+
+    console.log('1', message.subject);
+    console.log('2', objectId);
+    console.log('3', title); //
+    console.log('4', routes.subjectListPage.path); //
     return (
         <PageWrapper
             loading={loading}
@@ -50,7 +55,6 @@ const SubjectSavePage = () => {
                 },
                 { breadcrumbName: title },
             ]}
-            title={title}
         >
             <SubjectForm
                 formId={mixinFuncs.getFormId()}

@@ -10,7 +10,7 @@ import { DATE_FORMAT_VALUE, DEFAULT_FORMAT, DEFAULT_TABLE_ITEM_SIZE } from '@con
 import { convertUtcToLocalTime } from '@utils/index';
 import { UserOutlined, BookOutlined } from '@ant-design/icons';
 import route from '@modules/account/student/routes';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, generatePath, useParams } from 'react-router-dom';
 import { Button, Tag, Avatar } from 'antd';
 import { statusOptions } from '@constants/masterData';
 import { FieldTypes } from '@constants/formConfig';
@@ -23,11 +23,14 @@ import routes from '@routes';
 
 const message = defineMessages({
     objectName: 'Bài giảng',
+    subject: 'Bài giảng',
 });
 
 const SubjectDetailPage = () => {
+    const objectId = useParams();
     const translate = useTranslate();
     const navigate = useNavigate();
+
     const statusValues = translate.formatKeys(statusOptions, ['label']);
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
         apiConfig: apiConfig.lecture,
@@ -72,8 +75,18 @@ const SubjectDetailPage = () => {
             submitOnChanged: true,
         },
     ];
+
+    // console.log('2', objectId);
     return (
-        <PageWrapper routes={[{ breadcrumbName: translate.formatMessage(commonMessage.lecture) }]}>
+        <PageWrapper
+            routes={[
+                {
+                    breadcrumbName: translate.formatMessage(commonMessage.subject),
+                    path: generatePath(routes.subjectListPage.path),
+                },
+                { breadcrumbName: translate.formatMessage(commonMessage.lecture) },
+            ]}
+        >
             <ListPage
                 actionBar={mixinFuncs.renderActionBar()}
                 baseTable={
