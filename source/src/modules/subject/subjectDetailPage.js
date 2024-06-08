@@ -22,15 +22,15 @@ import { commonMessage } from '@locales/intl';
 import routes from '@routes';
 
 const message = defineMessages({
-    objectName: 'Môn học',
+    objectName: 'Bài giảng',
 });
 
-const SubjectListPage = () => {
+const SubjectDetailPage = () => {
     const translate = useTranslate();
     const navigate = useNavigate();
     const statusValues = translate.formatKeys(statusOptions, ['label']);
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
-        apiConfig: apiConfig.subject,
+        apiConfig: apiConfig.lecture,
         options: {
             pageSize: DEFAULT_TABLE_ITEM_SIZE,
             objectName: translate.formatMessage(message.objectName),
@@ -46,36 +46,12 @@ const SubjectListPage = () => {
             };
         },
     });
-    // console.log(data);
+    console.log(data);
     const columns = [
         {
-            title: <FormattedMessage defaultMessage="Tên môn học" />,
-            dataIndex: ['subjectName'],
-            render: (_, { id, subjectName }) => {
-                return (
-                    <div
-                        onClick={() => {
-                            navigate(`detail/${id}`);
-                        }}
-                    >
-                        {subjectName}
-                    </div>
-                );
-            },
+            title: <FormattedMessage defaultMessage="Tên bài giảng" />,
+            dataIndex: ['lectureName'],
         },
-        {
-            title: <FormattedMessage defaultMessage="Mã môn học" />,
-            dataIndex: ['subjectCode'],
-        },
-        {
-            title: <FormattedMessage defaultMessage="Ngày tạo" />,
-            dataIndex: ['createdDate'],
-            render: (date) => {
-                const result = convertUtcToLocalTime(date, DEFAULT_FORMAT, DATE_FORMAT_VALUE);
-                return <div>{result}</div>;
-            },
-        },
-        mixinFuncs.renderStatusColumn({ width: '120px' }),
         mixinFuncs.renderActionColumn({ edit: true, delete: true }, { width: '120px' }),
     ];
 
@@ -97,9 +73,8 @@ const SubjectListPage = () => {
         },
     ];
     return (
-        <PageWrapper routes={[{ breadcrumbName: translate.formatMessage(commonMessage.subject) }]}>
+        <PageWrapper routes={[{ breadcrumbName: translate.formatMessage(commonMessage.lecture) }]}>
             <ListPage
-                searchForm={mixinFuncs.renderSearchForm({ fields: searchFields, initialValues: queryFilter })}
                 actionBar={mixinFuncs.renderActionBar()}
                 baseTable={
                     <BaseTable
@@ -114,4 +89,4 @@ const SubjectListPage = () => {
         </PageWrapper>
     );
 };
-export default SubjectListPage;
+export default SubjectDetailPage;
