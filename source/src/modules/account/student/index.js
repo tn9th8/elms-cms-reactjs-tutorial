@@ -44,7 +44,6 @@ const StudentListPage = () => {
                     };
                 }
             };
-           
         },
     });
 
@@ -91,10 +90,7 @@ const StudentListPage = () => {
             dataIndex: ['studyClass', 'categoryName'],
         },
         mixinFuncs.renderStatusColumn({ width: '120px' }),
-        mixinFuncs.renderActionColumn(
-            {  edit: true, delete: true },
-            { width: '120px' },
-        ),
+        mixinFuncs.renderActionColumn({ edit: true, delete: true }, { width: '120px' }),
     ];
 
     const searchFields = [

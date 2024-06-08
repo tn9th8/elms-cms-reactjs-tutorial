@@ -3,7 +3,7 @@ import PageWrapper from '@components/common/layout/PageWrapper';
 import BaseTable from '@components/common/table/BaseTable';
 import { AppConstants, DEFAULT_TABLE_ITEM_SIZE } from '@constants';
 import apiConfig from '@constants/apiConfig';
-import { SalaryOptions,  statusOptions } from '@constants/masterData';
+import { SalaryOptions, statusOptions } from '@constants/masterData';
 import useFetch from '@hooks/useFetch';
 import useListBase from '@hooks/useListBase';
 import useTranslate from '@hooks/useTranslate';
@@ -222,7 +222,7 @@ const DeveloperListPage = () => {
             setProjectROle(projectroles);
         }
     }, [projectroles]);
-   
+
     return (
         <PageWrapper routes={[{ breadcrumbName: translate.formatMessage(commonMessage.developer) }]}>
             <ListPage
@@ -238,7 +238,6 @@ const DeveloperListPage = () => {
                     />
                 }
             ></ListPage>
-          
         </PageWrapper>
     );
 };

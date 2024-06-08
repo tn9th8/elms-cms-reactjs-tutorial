@@ -22,7 +22,7 @@ import { commonMessage } from '@locales/intl';
 import routes from '@routes';
 
 const message = defineMessages({
-    objectName: 'Khóa học',
+    objectName: 'Môn học',
 });
 
 const SubjectListPage = () => {
@@ -82,7 +82,7 @@ const SubjectListPage = () => {
         },
     ];
     return (
-        <PageWrapper routes={[{ breadcrumbName: translate.formatMessage(commonMessage.student) }]}>
+        <PageWrapper routes={[{ breadcrumbName: translate.formatMessage(commonMessage.subject) }]}>
             <ListPage
                 searchForm={mixinFuncs.renderSearchForm({ fields: searchFields, initialValues: queryFilter })}
                 actionBar={mixinFuncs.renderActionBar()}
