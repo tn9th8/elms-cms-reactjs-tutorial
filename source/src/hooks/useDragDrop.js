@@ -1,10 +1,11 @@
 import { moveArrayElement } from '@utils';
-import React, { useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import useFetch from './useFetch';
 import useNotification from './useNotification';
 
 const sortColumn = {
     key: 'sort',
+    align: 'center',
     width: 30,
 };
 

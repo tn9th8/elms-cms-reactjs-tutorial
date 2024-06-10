@@ -13,6 +13,7 @@ const BaseTable = ({
     loading,
     pagination,
     rowKey = (record) => record.id,
+    components,
     ...props
 }) => (
     <Table
@@ -22,6 +23,7 @@ const BaseTable = ({
         dataSource={dataSource}
         loading={loading}
         rowKey={rowKey}
+        components
         rowSelection={rowSelection}
         rowHoverable={false}
         // scroll={{ x: 'max-content' }}
