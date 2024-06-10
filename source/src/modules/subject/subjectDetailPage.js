@@ -1,25 +1,16 @@
-import PageWrapper from '@components/common/layout/PageWrapper';
 import ListPage from '@components/common/layout/ListPage';
+import PageWrapper from '@components/common/layout/PageWrapper';
 import BaseTable from '@components/common/table/BaseTable';
-import useListBase from '@hooks/useListBase';
 import apiConfig from '@constants/apiConfig';
-import React from 'react';
-import { defineMessages, FormattedMessage } from 'react-intl';
-import useTranslate from '@hooks/useTranslate';
-import { DATE_FORMAT_VALUE, DEFAULT_FORMAT, DEFAULT_TABLE_ITEM_SIZE } from '@constants/index';
-import { convertUtcToLocalTime } from '@utils/index';
-import { UserOutlined, BookOutlined } from '@ant-design/icons';
-import route from '@modules/account/student/routes';
-import { useNavigate, generatePath, useParams } from 'react-router-dom';
-import { Button, Tag, Avatar } from 'antd';
+import { DEFAULT_TABLE_ITEM_SIZE } from '@constants/index';
 import { statusOptions } from '@constants/masterData';
-import { FieldTypes } from '@constants/formConfig';
-import { AppConstants } from '@constants';
-import { CourseIcon } from '@assets/icons';
-import { BaseTooltip } from '@components/common/form/BaseTooltip';
-import AvatarField from '@components/common/form/AvatarField';
+import useListBase from '@hooks/useListBase';
+import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import routes from '@routes';
+import React from 'react';
+import { defineMessages, FormattedMessage } from 'react-intl';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 
 const message = defineMessages({
     objectName: 'Bài giảng',
@@ -28,11 +19,9 @@ const message = defineMessages({
 
 const SubjectDetailPage = () => {
     const params = useParams();
-    console.log(params.id, params);
     const translate = useTranslate();
     const navigate = useNavigate();
 
-    const statusValues = translate.formatKeys(statusOptions, ['label']);
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
         apiConfig: {
             ...apiConfig.lecture,
