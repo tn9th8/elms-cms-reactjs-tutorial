@@ -15,7 +15,7 @@ import routes from '@routes';
 import React, { useMemo, createContext, useContext, useState, useEffect } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
-import { Button, Table } from 'antd';
+import { Button, Col, Table, Row } from 'antd';
 import { HolderOutlined } from '@ant-design/icons';
 
 const message = defineMessages({
@@ -109,7 +109,7 @@ const initialData = [
     },
 ];
 
-const Row = (props) => {
+const SortableRow = (props) => {
     const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({
         id: props['data-row-key'],
     });
@@ -219,7 +219,7 @@ const SubjectDetailPage = () => {
                                 loading={loading}
                                 pagination={pagination}
                                 rowKey={{ id: 'ordering' }}
-                                components={{ body: { row: Row } }}
+                                components={{ body: { row: SortableRow } }}
                             />
                         </SortableContext>
                     </DndContext>
@@ -237,7 +237,15 @@ const SubjectDetailPage = () => {
                     //     </SortableContext>
                     // </DndContext>
                 }
-            ></ListPage>
+            >
+                <Row justify="end">
+                    <Col>
+                        <Button type="primary" onClick={handleUpdate}>
+                            Cập nhật vị trí
+                        </Button>
+                    </Col>
+                </Row>
+            </ListPage>
         </PageWrapper>
     );
 };
