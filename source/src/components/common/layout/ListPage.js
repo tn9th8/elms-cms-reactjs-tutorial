@@ -10,7 +10,7 @@ function ListPage({ searchForm, actionBar, baseTable, loading = false, children,
                 <div className={styles.title}>{title}</div>
                 <div className={styles.baseListPageList}>
                     {searchForm}
-                    <Flex justify='end'>{button}</Flex>
+                    <Flex justify="end">{button}</Flex>
                     <div className={styles.actionBar}>{actionBar}</div>
                     <div className={styles.actionBar}>{baseTable}</div>
                 </div>

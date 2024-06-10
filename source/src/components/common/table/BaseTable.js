@@ -22,8 +22,8 @@ const BaseTable = ({
         columns={columns.filter(Boolean)}
         dataSource={dataSource}
         loading={loading}
-        rowKey={rowKey}
-        components
+        rowKey={rowKey.id}
+        components={components}
         rowSelection={rowSelection}
         rowHoverable={false}
         // scroll={{ x: 'max-content' }}
