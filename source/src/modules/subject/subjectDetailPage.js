@@ -23,17 +23,24 @@ import routes from '@routes';
 
 const message = defineMessages({
     objectName: 'Bài giảng',
-    subject: 'Bài giảng',
+    lecture: 'Bài giảng',
 });
 
 const SubjectDetailPage = () => {
-    const objectId = useParams();
+    const params = useParams();
+    console.log(params.id, params);
     const translate = useTranslate();
     const navigate = useNavigate();
 
     const statusValues = translate.formatKeys(statusOptions, ['label']);
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
-        apiConfig: apiConfig.lecture,
+        apiConfig: {
+            ...apiConfig.lecture,
+            getList: (apiConfig.lecture.getBySubject = {
+                ...apiConfig.lecture.getBySubject,
+                baseURL: apiConfig.lecture.getBySubject.baseURL.replace(':subjectId', params.id),
+            }),
+        },
         options: {
             pageSize: DEFAULT_TABLE_ITEM_SIZE,
             objectName: translate.formatMessage(message.objectName),
@@ -49,7 +56,8 @@ const SubjectDetailPage = () => {
             };
         },
     });
-    console.log(data);
+    // console.log(data);
+
     const columns = [
         {
             title: <FormattedMessage defaultMessage="Tên bài giảng" />,
@@ -58,25 +66,6 @@ const SubjectDetailPage = () => {
         mixinFuncs.renderActionColumn({ edit: true, delete: true }, { width: '120px' }),
     ];
 
-    const searchFields = [
-        {
-            key: 'subjectName',
-            placeholder: translate.formatMessage(commonMessage.subjectName),
-        },
-        {
-            key: 'subjectCode',
-            placeholder: translate.formatMessage(commonMessage.subjectCode),
-        },
-        {
-            key: 'status',
-            placeholder: translate.formatMessage(commonMessage.status),
-            type: FieldTypes.SELECT,
-            options: statusValues,
-            submitOnChanged: true,
-        },
-    ];
-
-    // console.log('2', objectId);
     return (
         <PageWrapper
             routes={[
