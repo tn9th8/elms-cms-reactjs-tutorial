@@ -70,7 +70,8 @@ const SortableRow = (props) => {
 };
 
 const SubjectDetailPage = () => {
-    const params = useParams();
+    let { id } = useParams();
+    // console.log('>>> param >>> subjectId >>> ', id);
     const translate = useTranslate();
 
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
@@ -78,7 +79,7 @@ const SubjectDetailPage = () => {
             ...apiConfig.lecture,
             getList: (apiConfig.lecture.getBySubject = {
                 ...apiConfig.lecture.getBySubject,
-                baseURL: apiConfig.lecture.getBySubject.baseURL.replace(':subjectId', params.id),
+                baseURL: apiConfig.lecture.getBySubject.baseURL.replace(':subjectId', id),
             }),
         },
         options: {
@@ -96,13 +97,15 @@ const SubjectDetailPage = () => {
             };
         },
     });
+    // console.log('>>> data >>> subjectId >>> ', data[0]?.subject?.id);
 
     const { sortedData, onDragEnd, sortColumn, handleUpdate } = useDragDrop({
         data,
         apiConfig: apiConfig.lecture.updateSort,
         indexField: 'ordering',
     });
-    console.log('sorted data', sortedData);
+    // console.log('sorted data', sortedData);
+    // console.log('>>> sortedData >>> subjectId >>> ', sortedData[0]?.subject?.id);
 
     const columns = [
         {
@@ -130,47 +133,44 @@ const SubjectDetailPage = () => {
             ]}
         >
             <ListPage
-                // button={{
-                //     info: sortedData[0]?.subject?.subjectName,
-                //     button: mixinFuncs.renderActionBar(),
-                // }}
+                style={{ width: '744px' }}
                 info={sortedData[0]?.subject?.subjectName}
                 button={mixinFuncs.renderActionBar()}
                 baseTable={
-                    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-                        <SortableContext
-                            items={sortedData.map((i) => i.ordering)}
-                            strategy={verticalListSortingStrategy}
-                        >
-                            <Table
-                                rowKey="ordering"
-                                components={{ body: { row: SortableRow } }}
-                                columns={columns}
-                                dataSource={sortedData}
-                                loading={loading}
-                                pagination={false}
-                            />
-                        </SortableContext>
-                    </DndContext>
                     // <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
                     //     <SortableContext
                     //         items={sortedData.map((i) => i.ordering)}
                     //         strategy={verticalListSortingStrategy}
                     //     >
-                    //         <BaseTable
-                    //             onChange={mixinFuncs.changePagination}
+                    //         <Table
+                    //             rowKey="ordering"
+                    //             components={{ body: { row: SortableRow } }}
                     //             columns={columns}
                     //             dataSource={sortedData}
-                    //
-                    //             pagination={pagination}
-                    //             rowKey={{ id: 'ordering' }}
-                    //             components={{ body: { row: SortableRow } }}
+                    //             loading={loading}
+                    //             pagination={false}
                     //         />
                     //     </SortableContext>
                     // </DndContext>
+                    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+                        <SortableContext
+                            items={sortedData.map((i) => i.ordering)}
+                            strategy={verticalListSortingStrategy}
+                        >
+                            <BaseTable
+                                onChange={mixinFuncs.changePagination}
+                                columns={columns}
+                                dataSource={sortedData}
+                                pagination={pagination}
+                                loading={loading}
+                                rowKey={{ id: 'ordering' }}
+                                components={{ body: { row: SortableRow } }}
+                            />
+                        </SortableContext>
+                    </DndContext>
                 }
             >
-                <Row justify="end">
+                <Row justify="end" align="center">
                     <Col>
                         <Button type="primary" onClick={handleUpdate} icon={<SaveOutlined />}>
                             Cập nhật vị trí
