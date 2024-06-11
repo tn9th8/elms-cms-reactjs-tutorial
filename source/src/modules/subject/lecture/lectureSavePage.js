@@ -7,6 +7,8 @@ import routes from '@routes';
 import PageWrapper from '@components/common/layout/PageWrapper';
 import apiConfig from '@constants/apiConfig';
 import useSaveBase from '@hooks/useSaveBase';
+import LectureForm from './lectureForm';
+
 const message = defineMessages({
     objectName: 'Bài giảng',
     lecture: 'Bài giảng',
@@ -41,7 +43,7 @@ const LectureSavePage = () => {
         },
     });
 
-    console.log('>>> ', detail, isEditing);
+    // console.log('>>> ', detail, isEditing);
 
     return (
         <PageWrapper
@@ -58,7 +60,15 @@ const LectureSavePage = () => {
                 { breadcrumbName: title },
             ]}
         >
-            hello
+            <LectureForm
+                formId={mixinFuncs.getFormId()}
+                actions={mixinFuncs.renderActions()}
+                dataDetail={detail ? detail : {}}
+                onSubmit={onSave}
+                setIsChangedFormValues={setIsChangedFormValues}
+                isError={errors}
+                isEditing={isEditing}
+            />
         </PageWrapper>
     );
 };

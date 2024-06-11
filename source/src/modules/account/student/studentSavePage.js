@@ -40,6 +40,9 @@ const StudentSavePage = () => {
             };
         },
     });
+
+    // console.log('>>> ', detail, isEditing);
+
     return (
         <PageWrapper
             loading={loading}

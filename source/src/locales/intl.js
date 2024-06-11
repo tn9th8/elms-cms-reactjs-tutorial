@@ -25,6 +25,7 @@ export const commonMessage = defineMessages({
     leader: 'Leader',
     lecture: 'Bài giảng',
     lectureName: 'Tên bài giảng',
+    lectureKind: 'Loại bài giảng',
     logo: 'Logo',
     member: 'Thành viên',
     modifiedDate: 'Ngày sửa đổi',
