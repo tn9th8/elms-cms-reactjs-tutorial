@@ -55,7 +55,8 @@ const SubjectListPage = () => {
                 return (
                     <div
                         onClick={() => {
-                            navigate(`detail/${id}`);
+                            navigate(`lecture/${id}?subjectName=${subjectName}`);
+                            // navigate(`lecture/${id}`);
                         }}
                         style={{
                             cursor: 'pointer',
