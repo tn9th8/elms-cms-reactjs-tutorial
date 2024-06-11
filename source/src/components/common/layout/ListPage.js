@@ -3,16 +3,7 @@ import React from 'react';
 
 import styles from './ListPage.module.scss';
 
-function ListPage({
-    searchForm,
-    actionBar,
-    baseTable,
-    loading = false,
-    children,
-    title,
-    style,
-    button: { info, button },
-}) {
+function ListPage({ searchForm, actionBar, baseTable, loading = false, children, title, style, button, info }) {
     return (
         <Card className={styles.baseListPage} style={style}>
             <Spin spinning={loading}>

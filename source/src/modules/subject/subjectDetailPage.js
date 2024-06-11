@@ -130,10 +130,12 @@ const SubjectDetailPage = () => {
             ]}
         >
             <ListPage
-                button={{
-                    info: sortedData[0]?.subject?.subjectName,
-                    button: mixinFuncs.renderActionBar(),
-                }}
+                // button={{
+                //     info: sortedData[0]?.subject?.subjectName,
+                //     button: mixinFuncs.renderActionBar(),
+                // }}
+                info={sortedData[0]?.subject?.subjectName}
+                button={mixinFuncs.renderActionBar()}
                 baseTable={
                     <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
                         <SortableContext
