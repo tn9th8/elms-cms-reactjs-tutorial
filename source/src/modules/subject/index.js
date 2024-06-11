@@ -57,6 +57,10 @@ const SubjectListPage = () => {
                         onClick={() => {
                             navigate(`detail/${id}`);
                         }}
+                        style={{
+                            cursor: 'pointer',
+                            textDecoration: 'underline',
+                        }}
                     >
                         {subjectName}
                     </div>
@@ -66,17 +70,19 @@ const SubjectListPage = () => {
         {
             title: <FormattedMessage defaultMessage="Mã môn học" />,
             dataIndex: ['subjectCode'],
+            width: '220px',
         },
         {
             title: <FormattedMessage defaultMessage="Ngày tạo" />,
             dataIndex: ['createdDate'],
+            width: '220px',
             render: (date) => {
-                const result = convertUtcToLocalTime(date, DEFAULT_FORMAT, DATE_FORMAT_VALUE);
+                const result = convertUtcToLocalTime(date, DEFAULT_FORMAT, DEFAULT_FORMAT);
                 return <div>{result}</div>;
             },
         },
-        mixinFuncs.renderStatusColumn({ width: '120px' }),
-        mixinFuncs.renderActionColumn({ edit: true, delete: true }, { width: '120px' }),
+        mixinFuncs.renderStatusColumn({ width: '150px' }),
+        mixinFuncs.renderActionColumn({ edit: true, delete: true }, { width: '150px' }),
     ];
 
     const searchFields = [
