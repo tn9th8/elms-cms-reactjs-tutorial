@@ -16,13 +16,6 @@ function useDragDrop({ data = [], apiConfig, setTableLoading, indexField }) {
     );
     const { execute: executeOrdering } = useFetch(apiConfig);
     const notification = useNotification();
-    // const onDragEnd = ({ id: dragId }, { id: hoverId }) => {
-    //     if (dragId == hoverId) return;
-    //     const dragIndex = sortedData.findIndex((item) => item.id == dragId);
-    //     const hoverIndex = sortedData.findIndex((item) => item.id == hoverId);
-    //     const movedData = moveArrayElement(sortedData, dragIndex, hoverIndex);
-    //     setSortedData(movedData);
-    // };
     const onDragEnd = ({ active, over }) => {
         if (active.id !== over?.id) {
             setSortedData((prevState) => {
@@ -32,6 +25,13 @@ function useDragDrop({ data = [], apiConfig, setTableLoading, indexField }) {
             });
         }
     };
+    // const onDragEnd = ({ id: dragId }, { id: hoverId }) => {
+    //     if (dragId == hoverId) return;
+    //     const dragIndex = sortedData.findIndex((item) => item.id == dragId);
+    //     const hoverIndex = sortedData.findIndex((item) => item.id == hoverId);
+    //     const movedData = moveArrayElement(sortedData, dragIndex, hoverIndex);
+    //     setSortedData(movedData);
+    // };
     const handleUpdate = () => {
         let dataUpdate = [];
         sortedData.map((item, index) => {
