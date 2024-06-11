@@ -15,8 +15,8 @@ import routes from '@routes';
 import React, { useMemo, createContext, useContext, useState, useEffect } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
-import { Button, Col, Table, Row } from 'antd';
-import { HolderOutlined } from '@ant-design/icons';
+import { Button, Col, Row, Table } from 'antd';
+import { HolderOutlined, SaveOutlined } from '@ant-design/icons';
 
 const message = defineMessages({
     objectName: 'Bài giảng',
@@ -24,7 +24,7 @@ const message = defineMessages({
 });
 
 const RowContext = createContext({});
-const DragHandle = () => {
+const RenderDragCol = () => {
     const { setActivatorNodeRef, listeners } = useContext(RowContext);
     return (
         <Button
@@ -35,6 +35,16 @@ const DragHandle = () => {
             ref={setActivatorNodeRef}
             {...listeners}
         />
+    );
+};
+
+const RenderHierarchyCol = ({ lectureName, lectureKind }) => {
+    return lectureKind === 2 ? (
+        <div style={{ marginLeft: '20px' }}>{lectureName}</div>
+    ) : (
+        <div>
+            <strong>{lectureName}</strong>
+        </div>
     );
 };
 
@@ -97,11 +107,14 @@ const SubjectDetailPage = () => {
     const columns = [
         {
             ...sortColumn,
-            render: () => <DragHandle />,
+            render: () => <RenderDragCol />,
         },
         {
             title: <FormattedMessage defaultMessage="Tên bài giảng" />,
             dataIndex: ['lectureName'],
+            render: (_, { lectureName, lectureKind }) => (
+                <RenderHierarchyCol lectureName={lectureName} lectureKind={lectureKind} />
+            ),
         },
         mixinFuncs.renderActionColumn({ edit: true, delete: true }, { width: '120px' }),
     ];
@@ -117,29 +130,47 @@ const SubjectDetailPage = () => {
             ]}
         >
             <ListPage
-                actionBar={mixinFuncs.renderActionBar()}
+                button={{
+                    info: sortedData[0]?.subject?.subjectName,
+                    button: mixinFuncs.renderActionBar(),
+                }}
                 baseTable={
                     <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
                         <SortableContext
                             items={sortedData.map((i) => i.ordering)}
                             strategy={verticalListSortingStrategy}
                         >
-                            <BaseTable
-                                onChange={mixinFuncs.changePagination}
+                            <Table
+                                rowKey="ordering"
+                                components={{ body: { row: SortableRow } }}
                                 columns={columns}
                                 dataSource={sortedData}
                                 loading={loading}
-                                pagination={pagination}
-                                rowKey={{ id: 'ordering' }}
-                                components={{ body: { row: SortableRow } }}
+                                pagination={false}
                             />
                         </SortableContext>
                     </DndContext>
+                    // <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+                    //     <SortableContext
+                    //         items={sortedData.map((i) => i.ordering)}
+                    //         strategy={verticalListSortingStrategy}
+                    //     >
+                    //         <BaseTable
+                    //             onChange={mixinFuncs.changePagination}
+                    //             columns={columns}
+                    //             dataSource={sortedData}
+                    //
+                    //             pagination={pagination}
+                    //             rowKey={{ id: 'ordering' }}
+                    //             components={{ body: { row: SortableRow } }}
+                    //         />
+                    //     </SortableContext>
+                    // </DndContext>
                 }
             >
                 <Row justify="end">
                     <Col>
-                        <Button type="primary" onClick={handleUpdate}>
+                        <Button type="primary" onClick={handleUpdate} icon={<SaveOutlined />}>
                             Cập nhật vị trí
                         </Button>
                     </Col>

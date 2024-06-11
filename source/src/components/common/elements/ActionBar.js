@@ -39,6 +39,7 @@ function ActionBar({
     location,
     type,
     style,
+    title,
 }) {
     const intl = useIntl();
     const onBulkDeleteButtonClick = () => {
