@@ -16,7 +16,7 @@ import routes from '@routes';
 import { Button, Col, Row, Table } from 'antd';
 import React, { createContext, useContext, useMemo } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { generatePath, useParams, useSearchParams } from 'react-router-dom';
+import { generatePath, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
 const message = defineMessages({
     objectName: 'Bài giảng',
@@ -70,6 +70,7 @@ const SortableRow = (props) => {
 };
 
 const LectureBySubjectPage = () => {
+    const { pathname: pagePath } = useLocation();
     let params = useParams();
     let [searchParams, setSearchParams] = useSearchParams();
     const subjectName = searchParams.get('subjectName');
@@ -95,6 +96,10 @@ const LectureBySubjectPage = () => {
                         total: response.data.totalElements,
                     };
                 }
+            };
+            funcs.getCreateLink = () => {
+                const totalLecture = data ? data.length : 0;
+                return `${pagePath}/create?totalLecture=${totalLecture}`;
             };
         },
     });
