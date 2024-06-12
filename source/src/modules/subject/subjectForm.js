@@ -54,27 +54,27 @@ const SubjectForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
         <BaseForm formId={formId} onFinish={handleSubmit} form={form} onValuesChange={onValuesChange}>
             <Card>
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col span={24}>
                         <TextField
                             label={translate.formatMessage(commonMessage.subjectName)}
                             placeholder={translate.formatMessage(commonMessage.subjectName)}
-                            rules={[{ required: true }]}
+                            rules={[{ required: true, message: `${translate.formatMessage(commonMessage.required)}` }]}
                             name="subjectName"
-                        />
-                    </Col>
-                    <Col span={12}>
-                        <TextField
-                            label={translate.formatMessage(commonMessage.subjectCode)}
-                            placeholder={translate.formatMessage(commonMessage.subjectCode)}
-                            rules={[{ required: true }]}
-                            name="subjectCode"
                         />
                     </Col>
                 </Row>
                 <Row gutter={16}>
                     <Col span={12}>
+                        <TextField
+                            label={translate.formatMessage(commonMessage.subjectCode)}
+                            placeholder={translate.formatMessage(commonMessage.subjectCode)}
+                            rules={[{ required: true, message: `${translate.formatMessage(commonMessage.required)}` }]}
+                            name="subjectCode"
+                        />
+                    </Col>
+                    <Col span={12}>
                         <SelectField
-                            rules={[{ required: true }]}
+                            rules={[{ required: true, message: `${translate.formatMessage(commonMessage.required)}` }]}
                             label={<FormattedMessage defaultMessage="Trạng thái" />}
                             name="status"
                             options={statusValues}
@@ -82,13 +82,13 @@ const SubjectForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
                     </Col>
                 </Row>
                 <Row gutter={16}>
-                    <Col span={12}>
-                        <TextArea
-                            rules={[{ required: true }]}
-                            label="TextArea"
+                    <Col span={24}>
+                        <TextField
+                            type="textarea"
+                            rules={[{ required: false }]}
+                            label={translate.formatMessage(commonMessage.description)}
                             placeholder={translate.formatMessage(commonMessage.description)}
                             name="description"
-                            rows={4}
                         />
                     </Col>
                 </Row>

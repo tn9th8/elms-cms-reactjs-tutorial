@@ -1,24 +1,13 @@
-import { Card, Col, Row, DatePicker } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { BaseForm } from '@components/common/form/BaseForm';
+import RichTextField from '@components/common/form/RichTextField';
+import SelectField from '@components/common/form/SelectField';
+import TextField from '@components/common/form/TextField';
+import { lectureKindOptions } from '@constants/masterData';
 import useBasicForm from '@hooks/useBasicForm';
 import useTranslate from '@hooks/useTranslate';
-import TextField from '@components/common/form/TextField';
-import { BaseForm } from '@components/common/form/BaseForm';
-import DatePickerField from '@components/common/form/DatePickerField';
-import { DATE_FORMAT_DISPLAY, DATE_FORMAT_VALUE, DEFAULT_FORMAT } from '@constants/index';
-import { formatDateString } from '@utils/index';
-import dayjs from 'dayjs';
-import AutoCompleteField from '@components/common/form/AutoCompleteField';
-import useFetch from '@hooks/useFetch';
-import { FormattedMessage, defineMessages } from 'react-intl';
-import apiConfig from '@constants/apiConfig';
-import { lectureKindOptions } from '@constants/masterData';
-import SelectField from '@components/common/form/SelectField';
-import CropImageField from '@components/common/form/CropImageField';
-import { AppConstants, categoryKinds } from '@constants';
 import { commonMessage } from '@locales/intl';
-import NumericField from '@components/common/form/NumericField';
-import RichTextField from '@components/common/form/RichTextField';
+import { Card, Col, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
 
 const LectureForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsChangedFormValues, handleFocus }) => {
     const translate = useTranslate();
@@ -31,8 +20,8 @@ const LectureForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
     });
 
     useEffect(() => {
-        if (!isEditing > 0) {
-            // create => come into
+        if (!isEditing) {
+            setExtendForm(2);
             form.setFieldsValue({
                 lectureKind: lectureKindValues[1].value,
             });
@@ -40,22 +29,18 @@ const LectureForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
     }, [isEditing]);
 
     useEffect(() => {
-        setExtendForm(dataDetail?.lectureKind);
-        form.setFieldsValue({
-            lectureName: dataDetail?.lectureName,
-            urlDocument: dataDetail?.urlDocument,
-            description: dataDetail?.description,
-            shortDescription: dataDetail?.shortDescription,
-            lectureKind: dataDetail?.lectureKind,
-        });
+        if (dataDetail.id) {
+            setExtendForm(dataDetail.lectureKind);
+            form.setFieldsValue({ ...dataDetail });
+        }
     }, [dataDetail]);
 
     const handleSubmit = (values) => {
         return mixinFuncs.handleSubmit({
             ...values,
-            ordering: dataDetail?.ordering,
-            status: dataDetail?.status,
-            subjectId: dataDetail?.subject?.id,
+            ordering: dataDetail.ordering,
+            status: dataDetail.status,
+            subjectId: dataDetail.subject.id,
         });
     };
 
@@ -71,14 +56,14 @@ const LectureForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
                         <TextField
                             label={translate.formatMessage(commonMessage.lectureName)}
                             placeholder={translate.formatMessage(commonMessage.lectureName)}
-                            rules={[{ required: true }]}
+                            rules={[{ required: true, message: `${translate.formatMessage(commonMessage.required)}` }]}
                             name="lectureName"
                         />
                     </Col>
                     <Col span={12}>
                         <SelectField
-                            rules={[{ required: true }]}
                             label={translate.formatMessage(commonMessage.lectureKind)}
+                            rules={[{ required: true, message: `${translate.formatMessage(commonMessage.required)}` }]}
                             name="lectureKind"
                             options={lectureKindValues}
                             onChange={onChangeLectureKind}
@@ -90,7 +75,12 @@ const LectureForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
                         <Row gutter={16}>
                             <Col span={24}>
                                 <TextField
-                                    rules={[{ required: true }]}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: `${translate.formatMessage(commonMessage.required)}`,
+                                        },
+                                    ]}
                                     label={translate.formatMessage(commonMessage.urlDocument)}
                                     placeholder={translate.formatMessage(commonMessage.urlDocument)}
                                     name="urlDocument"
@@ -100,7 +90,12 @@ const LectureForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
                         <Row gutter={16}>
                             <Col span={24}>
                                 <RichTextField
-                                    rules={[{ required: true }]}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: `${translate.formatMessage(commonMessage.required)}`,
+                                        },
+                                    ]}
                                     label={translate.formatMessage(commonMessage.lectureContent)}
                                     placeholder={translate.formatMessage(commonMessage.lectureContent)}
                                     name="description"

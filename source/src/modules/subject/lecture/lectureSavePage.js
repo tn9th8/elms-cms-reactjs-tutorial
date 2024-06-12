@@ -2,7 +2,7 @@ import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import React from 'react';
 import { defineMessages } from 'react-intl';
-import { generatePath, useParams } from 'react-router-dom';
+import { generatePath, useParams, useSearchParams } from 'react-router-dom';
 import routes from '@routes';
 import PageWrapper from '@components/common/layout/PageWrapper';
 import apiConfig from '@constants/apiConfig';
@@ -16,6 +16,8 @@ const message = defineMessages({
 
 const LectureSavePage = () => {
     const { subjectId, id } = useParams();
+    let [searchParams, setSearchParams] = useSearchParams();
+    const totalLecture = searchParams.get('totalLecture');
     const translate = useTranslate();
 
     const { detail, onSave, mixinFuncs, setIsChangedFormValues, isEditing, errors, loading, title } = useSaveBase({
@@ -44,7 +46,7 @@ const LectureSavePage = () => {
         },
     });
 
-    console.log('>>> ', detail, isEditing);
+    // console.log('>>> ', detail, isEditing);
 
     return (
         <PageWrapper
@@ -64,7 +66,8 @@ const LectureSavePage = () => {
             <LectureForm
                 formId={mixinFuncs.getFormId()}
                 actions={mixinFuncs.renderActions()}
-                dataDetail={detail ? detail : {}}
+                dataDetail={detail.id ? detail : { ordering: totalLecture, status: 1, subject: { id: subjectId } }}
+                //  dataDetail={detail ? detail : { ordering: totalLecture, status: 1, subjectId }}
                 onSubmit={onSave}
                 setIsChangedFormValues={setIsChangedFormValues}
                 isError={errors}
