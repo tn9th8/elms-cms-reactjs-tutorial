@@ -123,10 +123,7 @@ const RichTextField = (props) => {
         const file = imageData.toFile();
         const res = await uploadFile(file);
         const range = reactQuill.current.getEditor().selection;
-        reactQuill.current
-            .getEditor()
-            .insertEmbed(range.lastRange.index, 'image', baseURL + res.data.filePath);
-      
+        reactQuill.current.getEditor().insertEmbed(range.lastRange.index, 'image', baseURL + res.data.filePath);
     }
     useEffect(() => {
         if (reactQuill.current) {

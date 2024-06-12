@@ -1,3 +1,4 @@
+import { HolderOutlined, SaveOutlined } from '@ant-design/icons';
 import ListPage from '@components/common/layout/ListPage';
 import PageWrapper from '@components/common/layout/PageWrapper';
 import BaseTable from '@components/common/table/BaseTable';
@@ -5,18 +6,17 @@ import apiConfig from '@constants/apiConfig';
 import { DEFAULT_TABLE_ITEM_SIZE } from '@constants/index';
 import { DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import useDragDrop from '@hooks/useDragDrop';
 import useListBase from '@hooks/useListBase';
 import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import routes from '@routes';
-import React, { useMemo, createContext, useContext, useState, useEffect } from 'react';
-import { defineMessages, FormattedMessage } from 'react-intl';
-import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'antd';
-import { HolderOutlined, SaveOutlined } from '@ant-design/icons';
+import React, { createContext, useContext, useMemo } from 'react';
+import { defineMessages, FormattedMessage } from 'react-intl';
+import { generatePath, useParams, useSearchParams } from 'react-router-dom';
 
 const message = defineMessages({
     objectName: 'Bài giảng',
@@ -69,16 +69,18 @@ const SortableRow = (props) => {
     );
 };
 
-const SubjectDetailPage = () => {
-    const params = useParams();
+const LectureBySubjectPage = () => {
+    let params = useParams();
+    let [searchParams, setSearchParams] = useSearchParams();
+    const subjectName = searchParams.get('subjectName');
+    // console.log('>>> param >>> subjectId >>> ', params, subjectName);
     const translate = useTranslate();
-
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
         apiConfig: {
             ...apiConfig.lecture,
             getList: (apiConfig.lecture.getBySubject = {
                 ...apiConfig.lecture.getBySubject,
-                baseURL: apiConfig.lecture.getBySubject.baseURL.replace(':subjectId', params.id),
+                baseURL: apiConfig.lecture.getBySubject.baseURL.replace(':subjectId', params.subjectId),
             }),
         },
         options: {
@@ -96,13 +98,14 @@ const SubjectDetailPage = () => {
             };
         },
     });
+    // console.log('>>> data >>> subjectId >>> ', data[0]?.subject?.id);
 
     const { sortedData, onDragEnd, sortColumn, handleUpdate } = useDragDrop({
         data,
         apiConfig: apiConfig.lecture.updateSort,
         indexField: 'ordering',
     });
-    console.log('sorted data', sortedData);
+    // console.log('>>> sortedData >>> subjectId >>> ', sortedData[0]?.subject?.id);
 
     const columns = [
         {
@@ -130,11 +133,8 @@ const SubjectDetailPage = () => {
             ]}
         >
             <ListPage
-                // button={{
-                //     info: sortedData[0]?.subject?.subjectName,
-                //     button: mixinFuncs.renderActionBar(),
-                // }}
-                info={sortedData[0]?.subject?.subjectName}
+                style={{ width: '744px' }}
+                info={subjectName}
                 button={mixinFuncs.renderActionBar()}
                 baseTable={
                     <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
@@ -142,13 +142,14 @@ const SubjectDetailPage = () => {
                             items={sortedData.map((i) => i.ordering)}
                             strategy={verticalListSortingStrategy}
                         >
-                            <Table
-                                rowKey="ordering"
-                                components={{ body: { row: SortableRow } }}
+                            <BaseTable
+                                onChange={mixinFuncs.changePagination}
                                 columns={columns}
                                 dataSource={sortedData}
+                                pagination={pagination}
                                 loading={loading}
-                                pagination={false}
+                                rowKey={{ id: 'ordering' }}
+                                components={{ body: { row: SortableRow } }}
                             />
                         </SortableContext>
                     </DndContext>
@@ -157,20 +158,19 @@ const SubjectDetailPage = () => {
                     //         items={sortedData.map((i) => i.ordering)}
                     //         strategy={verticalListSortingStrategy}
                     //     >
-                    //         <BaseTable
-                    //             onChange={mixinFuncs.changePagination}
+                    //         <Table
+                    //             rowKey="ordering"
+                    //             components={{ body: { row: SortableRow } }}
                     //             columns={columns}
                     //             dataSource={sortedData}
-                    //
-                    //             pagination={pagination}
-                    //             rowKey={{ id: 'ordering' }}
-                    //             components={{ body: { row: SortableRow } }}
+                    //             loading={loading}
+                    //             pagination={false}
                     //         />
                     //     </SortableContext>
                     // </DndContext>
                 }
             >
-                <Row justify="end">
+                <Row justify="end" align="center">
                     <Col>
                         <Button type="primary" onClick={handleUpdate} icon={<SaveOutlined />}>
                             Cập nhật vị trí
@@ -181,4 +181,4 @@ const SubjectDetailPage = () => {
         </PageWrapper>
     );
 };
-export default SubjectDetailPage;
+export default LectureBySubjectPage;

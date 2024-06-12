@@ -1,29 +1,32 @@
-import React from 'react';
-import apiConfig from '@constants/apiConfig';
-import routes from './routes';
-import PageWrapper from '@components/common/layout/PageWrapper';
-import StudentForm from './studentForm';
 import useTranslate from '@hooks/useTranslate';
-import useSaveBase from '@hooks/useSaveBase';
-import { generatePath, useParams } from 'react-router-dom';
+import { commonMessage } from '@locales/intl';
+import React from 'react';
 import { defineMessages } from 'react-intl';
+import { generatePath, useParams } from 'react-router-dom';
+import routes from '@routes';
+import PageWrapper from '@components/common/layout/PageWrapper';
+import apiConfig from '@constants/apiConfig';
+import useSaveBase from '@hooks/useSaveBase';
+import LectureForm from './lectureForm';
+
 const message = defineMessages({
-    objectName: 'Sinh viên',
-    student: 'Sinh viên',
+    objectName: 'Bài giảng',
+    lecture: 'Bài giảng',
 });
 
-const StudentSavePage = () => {
-    const studentId = useParams();
+const LectureSavePage = () => {
+    const { subjectId, id } = useParams();
     const translate = useTranslate();
 
     const { detail, onSave, mixinFuncs, setIsChangedFormValues, isEditing, errors, loading, title } = useSaveBase({
         apiConfig: {
-            getById: apiConfig.student.getById,
-            create: apiConfig.student.create,
-            update: apiConfig.student.update,
+            getById: apiConfig.lecture.getById,
+            create: apiConfig.lecture.create,
+            update: apiConfig.lecture.update,
         },
         options: {
-            getListUrl: routes.studentListPage.path,
+            getListUrl: generatePath(routes.lectureBySubjectPage.path, { subjectId }),
+            // getListUrl: routes.subjectListPage.path,
             objectName: translate.formatMessage(message.objectName),
         },
         override: (funcs) => {
@@ -41,21 +44,24 @@ const StudentSavePage = () => {
         },
     });
 
-    // console.log('>>> ', detail, isEditing);
+    console.log('>>> ', detail, isEditing);
 
     return (
         <PageWrapper
             loading={loading}
             routes={[
                 {
-                    breadcrumbName: translate.formatMessage(message.student),
-                    path: generatePath(routes.studentListPage.path, { studentId }),
+                    breadcrumbName: translate.formatMessage(commonMessage.subject),
+                    path: generatePath(routes.subjectListPage.path),
+                },
+                {
+                    breadcrumbName: translate.formatMessage(commonMessage.lecture),
+                    path: generatePath(routes.lectureBySubjectPage.path, { subjectId }),
                 },
                 { breadcrumbName: title },
             ]}
-            title={title}
         >
-            <StudentForm
+            <LectureForm
                 formId={mixinFuncs.getFormId()}
                 actions={mixinFuncs.renderActions()}
                 dataDetail={detail ? detail : {}}
@@ -67,4 +73,4 @@ const StudentSavePage = () => {
         </PageWrapper>
     );
 };
-export default StudentSavePage;
+export default LectureSavePage;

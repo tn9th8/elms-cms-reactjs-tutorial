@@ -303,6 +303,7 @@ const useSaveBase = ({
 
     useEffect(() => {
         if (params.id) {
+            // console.log('>>> run');
             if (params.id === 'create') setEditing(false);
             else mixinFuncs.getDetail();
         }
