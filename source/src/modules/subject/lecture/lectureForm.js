@@ -18,7 +18,7 @@ import CropImageField from '@components/common/form/CropImageField';
 import { AppConstants, categoryKinds } from '@constants';
 import { commonMessage } from '@locales/intl';
 import NumericField from '@components/common/form/NumericField';
-import TextArea from 'antd/es/input/TextArea';
+import RichTextField from '@components/common/form/RichTextField';
 
 const LectureForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsChangedFormValues, handleFocus }) => {
     const translate = useTranslate();
@@ -43,14 +43,20 @@ const LectureForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
         setExtendForm(dataDetail?.lectureKind);
         form.setFieldsValue({
             lectureName: dataDetail?.lectureName,
-            // subjectCode: dataDetail?.subjectCode,
-            // description: dataDetail?.description,
+            urlDocument: dataDetail?.urlDocument,
+            description: dataDetail?.description,
+            shortDescription: dataDetail?.shortDescription,
             lectureKind: dataDetail?.lectureKind,
         });
     }, [dataDetail]);
 
     const handleSubmit = (values) => {
-        return mixinFuncs.handleSubmit({ ...values });
+        return mixinFuncs.handleSubmit({
+            ...values,
+            ordering: dataDetail?.ordering,
+            status: dataDetail?.status,
+            subjectId: dataDetail?.subject?.id,
+        });
     };
 
     const onChangeLectureKind = (e) => {
@@ -80,24 +86,42 @@ const LectureForm = ({ isEditing, formId, actions, dataDetail, onSubmit, setIsCh
                     </Col>
                 </Row>
                 {extendForm === 2 && (
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <TextField
-                                label={translate.formatMessage(commonMessage.lectureName)}
-                                placeholder={translate.formatMessage(commonMessage.lectureName)}
-                                rules={[{ required: true }]}
-                                name="lectureName"
-                            />
-                        </Col>
-                        <Col span={12}>
-                            <SelectField
-                                rules={[{ required: true }]}
-                                label={translate.formatMessage(commonMessage.lectureKind)}
-                                name="lectureKind"
-                                options={lectureKindValues}
-                            />
-                        </Col>
-                    </Row>
+                    <div>
+                        <Row gutter={16}>
+                            <Col span={24}>
+                                <TextField
+                                    rules={[{ required: true }]}
+                                    label={translate.formatMessage(commonMessage.urlDocument)}
+                                    placeholder={translate.formatMessage(commonMessage.urlDocument)}
+                                    name="urlDocument"
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={16}>
+                            <Col span={24}>
+                                <RichTextField
+                                    rules={[{ required: true }]}
+                                    label={translate.formatMessage(commonMessage.lectureContent)}
+                                    placeholder={translate.formatMessage(commonMessage.lectureContent)}
+                                    name="description"
+                                    style={{ height: '530px', marginBottom: '70px' }}
+                                    form={form}
+                                    setIsChangedFormValues={setIsChangedFormValues}
+                                />
+                            </Col>
+                        </Row>
+                        <Row gutter={16}>
+                            <Col span={24}>
+                                <TextField
+                                    type="textarea"
+                                    rules={[{ required: false }]}
+                                    label={translate.formatMessage(commonMessage.shortDescription)}
+                                    placeholder={translate.formatMessage(commonMessage.shortDescription)}
+                                    name="shortDescription"
+                                />
+                            </Col>
+                        </Row>
+                    </div>
                 )}
                 <div className="footer-card-form">{actions}</div>
             </Card>

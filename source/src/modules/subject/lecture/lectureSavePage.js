@@ -43,7 +43,7 @@ const LectureSavePage = () => {
         },
     });
 
-    // console.log('>>> ', detail, isEditing);
+    console.log('>>> ', detail, isEditing);
 
     return (
         <PageWrapper
