@@ -25,7 +25,8 @@ const LectureSavePage = () => {
             update: apiConfig.lecture.update,
         },
         options: {
-            getListUrl: routes.subjectListPage.path,
+            getListUrl: generatePath(routes.lectureBySubjectPage.path, { subjectId }),
+            // getListUrl: routes.subjectListPage.path,
             objectName: translate.formatMessage(message.objectName),
         },
         override: (funcs) => {
