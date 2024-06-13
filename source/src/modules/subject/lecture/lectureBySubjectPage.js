@@ -14,7 +14,7 @@ import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import routes from '@routes';
 import { Button, Col, Row, Table } from 'antd';
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { generatePath, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
@@ -74,15 +74,15 @@ const LectureBySubjectPage = () => {
     let params = useParams();
     let [searchParams, setSearchParams] = useSearchParams();
     const subjectName = searchParams.get('subjectName');
-    // console.log('>>> param >>> subjectId >>> ', params, subjectName);
     const translate = useTranslate();
+
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
         apiConfig: {
             ...apiConfig.lecture,
-            getList: (apiConfig.lecture.getBySubject = {
+            getList: {
                 ...apiConfig.lecture.getBySubject,
                 baseURL: apiConfig.lecture.getBySubject.baseURL.replace(':subjectId', params.subjectId),
-            }),
+            },
         },
         options: {
             pageSize: DEFAULT_TABLE_ITEM_SIZE,
@@ -100,6 +100,9 @@ const LectureBySubjectPage = () => {
             funcs.getCreateLink = () => {
                 const totalLecture = data ? data.length : 0;
                 return `${pagePath}/create?totalLecture=${totalLecture}`;
+            };
+            funcs.prepareGetListParams = () => {
+                return params.subjectId;
             };
         },
     });

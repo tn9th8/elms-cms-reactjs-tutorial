@@ -105,7 +105,14 @@ const useListBase = ({
     isProjectToken = false,
     override,
 } = {}) => {
+    // console.log('>>> useListBase >>> api >>> ', apiConfig.getList.baseURL);
     const { params: queryParams, setQueryParams, serializeParams, deserializeParams } = useQueryParams();
+    
+    // console.log('>>> useListBase >>> params >>> ', queryParams);
+    // const URLSearchParams = queryParams ;
+    // const size = URLSearchParams.get('size');
+    // console.log('>>> useListBase >>> URL >>> ', queryParams.size);
+
     const [data, setData] = useState(0);
     const [loading, setLoading] = useState(false);
     const userTokenProject = getData(storageKeys.USER_PROJECT_ACCESS_TOKEN);
