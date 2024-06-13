@@ -17,6 +17,7 @@ import { Button, Col, Row, Table } from 'antd';
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { generatePath, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import './lectureBySubjectPage.scss';
 
 const message = defineMessages({
     objectName: 'Bài giảng',
@@ -130,6 +131,8 @@ const LectureBySubjectPage = () => {
         mixinFuncs.renderActionColumn({ edit: true, delete: true }, { width: '120px' }),
     ];
 
+    const [selectedOrdering, setSelectedOrdering] = useState([]);
+
     return (
         <PageWrapper
             routes={[
@@ -145,37 +148,48 @@ const LectureBySubjectPage = () => {
                 info={subjectName}
                 button={mixinFuncs.renderActionBar()}
                 baseTable={
-                    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-                        <SortableContext
-                            items={sortedData.map((i) => i.ordering)}
-                            strategy={verticalListSortingStrategy}
-                        >
-                            <BaseTable
-                                onChange={mixinFuncs.changePagination}
-                                columns={columns}
-                                dataSource={sortedData}
-                                pagination={pagination}
-                                loading={loading}
-                                rowKey={{ id: 'ordering' }}
-                                components={{ body: { row: SortableRow } }}
-                            />
-                        </SortableContext>
-                    </DndContext>
                     // <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
                     //     <SortableContext
                     //         items={sortedData.map((i) => i.ordering)}
                     //         strategy={verticalListSortingStrategy}
                     //     >
-                    //         <Table
-                    //             rowKey="ordering"
-                    //             components={{ body: { row: SortableRow } }}
+                    //         <BaseTable
+                    //             onChange={mixinFuncs.changePagination}
                     //             columns={columns}
                     //             dataSource={sortedData}
+                    //             pagination={pagination}
                     //             loading={loading}
-                    //             pagination={false}
+                    //             rowKey={{ id: 'ordering' }}
+                    //             components={{ body: { row: SortableRow } }}
                     //         />
                     //     </SortableContext>
                     // </DndContext>
+                    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+                        <SortableContext
+                            items={sortedData.map((i) => i.ordering)}
+                            strategy={verticalListSortingStrategy}
+                        >
+                            <Table
+                                rowKey="ordering"
+                                components={{ body: { row: SortableRow } }}
+                                columns={columns}
+                                dataSource={sortedData}
+                                loading={loading}
+                                pagination={false}
+                                rowHoverable={true}
+                                onRow={(record, rowIndex) => ({
+                                    onClick: () => {
+                                        if (record.lectureKind === 1) {
+                                            setSelectedOrdering([record.ordering]);
+                                            // console.log('go', record.ordering, rowIndex, selectedOrdering);
+                                        }
+                                    },
+                                    style: selectedOrdering.includes(record.ordering) ? { backgroundColor: '#969696' } : {},
+                                    // className: selectedRowKeys.includes(record.ordering) ? 'selected-row' : '',
+                                })}
+                            />
+                        </SortableContext>
+                    </DndContext>
                 }
             >
                 <Row justify="end" align="center">
