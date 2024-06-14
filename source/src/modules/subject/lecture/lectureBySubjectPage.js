@@ -14,9 +14,10 @@ import useTranslate from '@hooks/useTranslate';
 import { commonMessage } from '@locales/intl';
 import routes from '@routes';
 import { Button, Col, Row, Table } from 'antd';
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { generatePath, useLocation, useParams, useSearchParams } from 'react-router-dom';
+import './lectureBySubjectPage.scss';
 
 const message = defineMessages({
     objectName: 'Bài giảng',
@@ -70,19 +71,20 @@ const SortableRow = (props) => {
 };
 
 const LectureBySubjectPage = () => {
+    const translate = useTranslate();
     const { pathname: pagePath } = useLocation();
     let params = useParams();
     let [searchParams, setSearchParams] = useSearchParams();
     const subjectName = searchParams.get('subjectName');
-    // console.log('>>> param >>> subjectId >>> ', params, subjectName);
-    const translate = useTranslate();
+    const [selectedOrdering, setSelectedOrdering] = useState([]);
+
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
         apiConfig: {
             ...apiConfig.lecture,
-            getList: (apiConfig.lecture.getBySubject = {
+            getList: {
                 ...apiConfig.lecture.getBySubject,
                 baseURL: apiConfig.lecture.getBySubject.baseURL.replace(':subjectId', params.subjectId),
-            }),
+            },
         },
         options: {
             pageSize: DEFAULT_TABLE_ITEM_SIZE,
@@ -99,8 +101,11 @@ const LectureBySubjectPage = () => {
             };
             funcs.getCreateLink = () => {
                 const totalLecture = data ? data.length : 0;
-                return `${pagePath}/create?totalLecture=${totalLecture}`;
+                return `${pagePath}/create?totalLecture=${totalLecture}&selectedOrdering=${selectedOrdering[0]}`;
             };
+            // funcs.prepareGetListParams = () => {
+            //     return params.subjectId;
+            // };
         },
     });
     // console.log('>>> data >>> subjectId >>> ', data[0]?.subject?.id);
@@ -142,37 +147,48 @@ const LectureBySubjectPage = () => {
                 info={subjectName}
                 button={mixinFuncs.renderActionBar()}
                 baseTable={
-                    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-                        <SortableContext
-                            items={sortedData.map((i) => i.ordering)}
-                            strategy={verticalListSortingStrategy}
-                        >
-                            <BaseTable
-                                onChange={mixinFuncs.changePagination}
-                                columns={columns}
-                                dataSource={sortedData}
-                                pagination={pagination}
-                                loading={loading}
-                                rowKey={{ id: 'ordering' }}
-                                components={{ body: { row: SortableRow } }}
-                            />
-                        </SortableContext>
-                    </DndContext>
                     // <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
                     //     <SortableContext
                     //         items={sortedData.map((i) => i.ordering)}
                     //         strategy={verticalListSortingStrategy}
                     //     >
-                    //         <Table
-                    //             rowKey="ordering"
-                    //             components={{ body: { row: SortableRow } }}
+                    //         <BaseTable
+                    //             onChange={mixinFuncs.changePagination}
                     //             columns={columns}
                     //             dataSource={sortedData}
+                    //             pagination={pagination}
                     //             loading={loading}
-                    //             pagination={false}
+                    //             rowKey={{ id: 'ordering' }}
+                    //             components={{ body: { row: SortableRow } }}
                     //         />
                     //     </SortableContext>
                     // </DndContext>
+                    <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+                        <SortableContext
+                            items={sortedData.map((i) => i.ordering)}
+                            strategy={verticalListSortingStrategy}
+                        >
+                            <Table
+                                rowKey="ordering"
+                                components={{ body: { row: SortableRow } }}
+                                columns={columns}
+                                dataSource={sortedData}
+                                loading={loading}
+                                pagination={false}
+                                rowHoverable={true}
+                                onRow={(record, rowIndex) => ({
+                                    onClick: () => {
+                                        if (record.lectureKind === 1) {
+                                            setSelectedOrdering([record.ordering]);
+                                            // console.log('go', record.ordering, rowIndex, selectedOrdering);
+                                        }
+                                    },
+                                    style: selectedOrdering.includes(record.ordering) ? { backgroundColor: '#969696' } : {},
+                                    // className: selectedRowKeys.includes(record.ordering) ? 'selected-row' : '',
+                                })}
+                            />
+                        </SortableContext>
+                    </DndContext>
                 }
             >
                 <Row justify="end" align="center">
