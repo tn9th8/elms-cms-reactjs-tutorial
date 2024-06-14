@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import useFetch from './useFetch';
 import useNotification from './useNotification';
 import { arrayMove } from '@dnd-kit/sortable';
+import { number } from 'yup';
 
 const sortColumn = {
     key: 'sort',
@@ -32,14 +33,34 @@ function useDragDrop({ data = [], apiConfig, setTableLoading, indexField }) {
     //     const movedData = moveArrayElement(sortedData, dragIndex, hoverIndex);
     //     setSortedData(movedData);
     // };
-    const handleUpdate = () => {
+
+    const handleUpdate = (selectedOrdering) => {
         let dataUpdate = [];
-        sortedData.map((item, index) => {
-            dataUpdate.push({
-                id: item.id,
-                [indexField]: index,
+        if (typeof selectedOrdering  === 'number') {
+            sortedData.map((item, index) => {
+                if (index > selectedOrdering) {
+                    index++;
+                    dataUpdate.push({
+                        id: item.id,
+                        [indexField]: index,
+                    });
+                }
             });
-        });
+        } else {
+            sortedData.map((item, index) => {
+                dataUpdate.push({
+                    id: item.id,
+                    [indexField]: index,
+                });
+            });
+        }
+        // sortedData.map((item, index) => {
+        //     dataUpdate.push({
+        //         id: item.id,
+        //         [indexField]: index,
+        //     });
+        // });
+
         executeOrdering({
             data: dataUpdate,
             onCompleted: () => {

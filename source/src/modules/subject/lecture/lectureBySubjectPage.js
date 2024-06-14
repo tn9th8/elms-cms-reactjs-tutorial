@@ -71,11 +71,12 @@ const SortableRow = (props) => {
 };
 
 const LectureBySubjectPage = () => {
+    const translate = useTranslate();
     const { pathname: pagePath } = useLocation();
     let params = useParams();
     let [searchParams, setSearchParams] = useSearchParams();
     const subjectName = searchParams.get('subjectName');
-    const translate = useTranslate();
+    const [selectedOrdering, setSelectedOrdering] = useState([]);
 
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
         apiConfig: {
@@ -100,11 +101,11 @@ const LectureBySubjectPage = () => {
             };
             funcs.getCreateLink = () => {
                 const totalLecture = data ? data.length : 0;
-                return `${pagePath}/create?totalLecture=${totalLecture}`;
+                return `${pagePath}/create?totalLecture=${totalLecture}&selectedOrdering=${selectedOrdering[0]}`;
             };
-            funcs.prepareGetListParams = () => {
-                return params.subjectId;
-            };
+            // funcs.prepareGetListParams = () => {
+            //     return params.subjectId;
+            // };
         },
     });
     // console.log('>>> data >>> subjectId >>> ', data[0]?.subject?.id);
@@ -130,8 +131,6 @@ const LectureBySubjectPage = () => {
         },
         mixinFuncs.renderActionColumn({ edit: true, delete: true }, { width: '120px' }),
     ];
-
-    const [selectedOrdering, setSelectedOrdering] = useState([]);
 
     return (
         <PageWrapper
