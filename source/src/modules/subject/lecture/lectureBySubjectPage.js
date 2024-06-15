@@ -117,6 +117,13 @@ const LectureBySubjectPage = () => {
     });
     // console.log('>>> sortedData >>> subjectId >>> ', sortedData[0]?.subject?.id);
 
+    // const initialData = [
+    //     { id: 0, lectureName: 'John Brown', lectureKind: 1, ordering: 1 },
+    //     { id: 1, lectureName: 'Jim Green', lectureKind: 2, ordering: 2 },
+    //     { id: 2, lectureName: 'Joe Black', lectureKind: 2, ordering: 3 },
+    // ];
+    // const [dataTempt, setDataTempt] = useState(initialData);
+
     const columns = [
         {
             ...sortColumn,
@@ -172,6 +179,7 @@ const LectureBySubjectPage = () => {
                                 rowKey="ordering"
                                 components={{ body: { row: SortableRow } }}
                                 columns={columns}
+                                // dataSource={dataTempt}
                                 dataSource={sortedData}
                                 loading={loading}
                                 pagination={false}

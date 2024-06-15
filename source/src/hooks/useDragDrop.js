@@ -12,6 +12,7 @@ const sortColumn = {
 };
 
 function useDragDrop({ data = [], apiConfig, setTableLoading, indexField }) {
+    // const [sortedData, setSortedData] = useState(data);
     const [sortedData, setSortedData] = useState(
         (data.length > 0 && data.sort((a, b) => a?.[indexField] - b?.[indexField])) || [],
     );
@@ -38,6 +39,7 @@ function useDragDrop({ data = [], apiConfig, setTableLoading, indexField }) {
         let dataUpdate = [];
         if (typeof selectedOrdering  === 'number') {
             sortedData.map((item, index) => {
+                index++;
                 if (index > selectedOrdering) {
                     index++;
                     dataUpdate.push({
@@ -48,6 +50,7 @@ function useDragDrop({ data = [], apiConfig, setTableLoading, indexField }) {
             });
         } else {
             sortedData.map((item, index) => {
+                index++;
                 dataUpdate.push({
                     id: item.id,
                     [indexField]: index,
