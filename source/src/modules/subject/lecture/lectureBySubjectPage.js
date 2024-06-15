@@ -74,8 +74,8 @@ const LectureBySubjectPage = () => {
     const translate = useTranslate();
     const { pathname: pagePath } = useLocation();
     let params = useParams();
-    let [searchParams, setSearchParams] = useSearchParams();
-    const subjectName = searchParams.get('subjectName');
+    // let [searchParams, setSearchParams] = useSearchParams();
+    // const subjectName = searchParams.get('subjectName');
     const [selectedOrdering, setSelectedOrdering] = useState([]);
 
     const { data, mixinFuncs, loading, pagination, queryFilter } = useListBase({
@@ -83,7 +83,8 @@ const LectureBySubjectPage = () => {
             ...apiConfig.lecture,
             getList: {
                 ...apiConfig.lecture.getBySubject,
-                baseURL: apiConfig.lecture.getBySubject.baseURL.replace(':subjectId', params.subjectId),
+                baseURL: apiConfig.lecture.getBySubject.baseURL,
+                // baseURL: apiConfig.lecture.getBySubject.baseURL.replace(':subjectId', params.subjectId),
             },
         },
         options: {
@@ -103,12 +104,12 @@ const LectureBySubjectPage = () => {
                 const totalLecture = data ? data.length : 0;
                 return `${pagePath}/create?totalLecture=${totalLecture}&selectedOrdering=${selectedOrdering[0]}`;
             };
-            // funcs.prepareGetListParams = () => {
-            //     return params.subjectId;
-            // };
+            funcs.prepareGetListPathParams = () => {
+                return { subjectId: params.subjectId };
+            };
         },
     });
-    // console.log('>>> data >>> subjectId >>> ', data[0]?.subject?.id);
+    // console.log('>>> data >>> queryFilter >>> ', queryFilter.subjectName);
 
     const { sortedData, onDragEnd, sortColumn, handleUpdate } = useDragDrop({
         data,
@@ -151,7 +152,7 @@ const LectureBySubjectPage = () => {
         >
             <ListPage
                 style={{ width: '744px' }}
-                info={subjectName}
+                info={queryFilter.subjectName}
                 button={mixinFuncs.renderActionBar()}
                 baseTable={
                     // <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>

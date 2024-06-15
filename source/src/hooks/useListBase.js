@@ -195,7 +195,6 @@ const useListBase = ({
         copyFilter.page = page > 0 ? page - 1 : DEFAULT_TABLE_PAGE_START;
 
         copyFilter.size = options.pageSize;
-
         return copyFilter;
     };
 
